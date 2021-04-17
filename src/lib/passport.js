@@ -14,20 +14,15 @@ passport.use('local.login',new localstrategy({
     
     //proceso para autenticar al usuario de manera asíncrona
     },async (req,usuusuario,usucontrasena,callback)=>{
-       // const {usuusuario}=req.body;
-        //const {usucontrasena}=req.body; 
-
-      console.log(usuusuario);
+      
        const resultado= await db.query('SELECT * FROM  usuario WHERE usuusuario= ?',[usuusuario]);
-       console.log(resultado);
+   
        if(resultado.length>0){
            const usuario=resultado[0];
            const validarcontrasena= await helpers.desencriptarcontrasena(usucontrasena,usuario.usucontrasena);
            if(validarcontrasena){
                     const resultadorol= await db.query('SELECT * FROM rol WHERE rolid= ?',[usuario.rolid]);
-                    const rol=resultadorol[0];  
-                    console.log(rol);
-            
+                    const rol=resultadorol[0];              
                //almacenar variable de sesión
                req.session.usuario=usuario.usuusuario;
                req.session.descripcion=rol.roldescripcion;
