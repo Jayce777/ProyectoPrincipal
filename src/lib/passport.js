@@ -13,7 +13,7 @@ passport.use('local.login',new localstrategy({
     passReqToCallback:true
     
     //proceso para autenticar al usuario de manera asíncrona
-    },async (req,usuusuario,usucontrasena,done)=>{
+    },async (req,usuusuario,usucontrasena,callback)=>{
        // const {usuusuario}=req.body;
         //const {usucontrasena}=req.body; 
 
@@ -33,13 +33,13 @@ passport.use('local.login',new localstrategy({
                req.session.descripcion=rol.roldescripcion;
                req.session.idrol=rol.rolid;
 
-               done(null,usuario,req.flash('success','Usuario: '+  req.session.usuario));
+               callback(null,usuario,req.flash('success','Usuario: '+  req.session.usuario));
                }else{
-               done(null,false,req.flash('message','Contraseña inválida'));
+                callback(null,false,req.flash('message','Contraseña inválida'));
            }
        }else{
           // console.log("NOOO");
-           done(null,false,req.flash('message','No se ha encontrado ningún usuario'))
+          callback(null,false,req.flash('message','No se ha encontrado ningún usuario'))
        }
     
     
